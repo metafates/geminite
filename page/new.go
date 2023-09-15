@@ -78,7 +78,9 @@ func New(ctx context.Context, URL *url.URL, options ...Option) (*Page, error) {
 
 	document := goquery.NewDocumentFromNode(article.Node)
 
-	mdConverter := md.NewConverter(URL.String(), true, nil)
+	mdConverter := md.NewConverter(URL.String(), true, &md.Options{
+		EscapeMode: "disabled",
+	})
 	markdown := mdConverter.Convert(document.Selection)
 
 	selection := document.Find("a")
@@ -99,9 +101,11 @@ func New(ctx context.Context, URL *url.URL, options ...Option) (*Page, error) {
 			return
 		}
 
+		anchorText := strings.TrimSpace(s.Text())
+
 		anchor := Anchor{
 			URL:  anchorURL,
-			Text: s.Text(),
+			Text: anchorText,
 		}
 
 		anchors = append(anchors, anchor)

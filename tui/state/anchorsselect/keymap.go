@@ -1,4 +1,4 @@
-package pageview
+package anchorsselect
 
 import (
 	"github.com/charmbracelet/bubbles/help"
@@ -9,23 +9,19 @@ import (
 var _ help.KeyMap = (*keyMap)(nil)
 
 type keyMap struct {
-	GotoTop, GotoBottom key.Binding
-
-	Anchors key.Binding
+	Select key.Binding
 }
 
 func newKeyMap() *keyMap {
 	return &keyMap{
-		GotoTop:    util.Bind("top", "g"),
-		GotoBottom: util.Bind("end", "G"),
-		Anchors:    util.Bind("anchors", "enter"),
+		Select: util.Bind("select", "enter"),
 	}
 }
 
 func (k *keyMap) ShortHelp() []key.Binding {
-	return []key.Binding{k.GotoTop, k.GotoBottom, k.Anchors}
+	return nil
 }
 
 func (k *keyMap) FullHelp() [][]key.Binding {
-	return [][]key.Binding{k.ShortHelp()}
+	return nil
 }

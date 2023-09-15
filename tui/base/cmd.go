@@ -11,3 +11,9 @@ func Err(err error) tea.Cmd {
 		return err
 	}
 }
+
+func PushState(state State) tea.Cmd {
+	return func() tea.Msg {
+		return state
+	}
+}

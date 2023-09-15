@@ -13,6 +13,7 @@ import (
 	"github.com/metafates/geminite/page"
 	"github.com/metafates/geminite/stringutil"
 	"github.com/metafates/geminite/tui/base"
+	"github.com/metafates/geminite/tui/state/anchorsselect"
 )
 
 var _ base.State = (*State)(nil)
@@ -34,6 +35,7 @@ func (s *State) init(size base.Size) tea.Cmd {
 
 	if !s.initialized {
 		s.viewport = viewport.New(size.Width, size.Height)
+		s.initialized = true
 	} else {
 		s.viewport.Width = size.Width
 		s.viewport.Height = size.Height
@@ -54,6 +56,8 @@ func (s *State) init(size base.Size) tea.Cmd {
 
 	offset := s.viewport.YOffset
 	s.viewport.SetContent(out)
+
+	// TODO: it doesn't work for some reason...
 	s.viewport.SetYOffset(offset)
 
 	return nil
@@ -86,13 +90,13 @@ func (s *State) Status() string {
 
 // Subtitle implements base.State.
 func (s *State) Subtitle() string {
-	page := s.page
-	meta := page.Meta
+	p := s.page
+	meta := p.Meta
 	if meta.Byline == "" {
-		return page.URL.Hostname()
+		return p.URL.Hostname()
 	}
 
-	return fmt.Sprintf("%s @ %s", meta.Byline, page.URL.Hostname())
+	return fmt.Sprintf("%s @ %s", meta.Byline, p.URL.Hostname())
 }
 
 func (s *State) estimateReadingDuration() string {
@@ -120,6 +124,19 @@ func (s *State) Update(model base.Model, msg tea.Msg) tea.Cmd {
 			s.viewport.GotoTop()
 		case key.Matches(msg, s.keyMap.GotoBottom):
 			s.viewport.GotoBottom()
+		case key.Matches(msg, s.keyMap.Anchors):
+			onSelect := func(anchor *page.Anchor) tea.Cmd {
+				return func() tea.Msg {
+					p, err := s.page.Descendant(model.Context(), anchor.URL)
+					if err != nil {
+						return err
+					}
+
+					return New(p)
+				}
+			}
+
+			return base.PushState(anchorsselect.New(s.page, onSelect))
 		}
 	}
 

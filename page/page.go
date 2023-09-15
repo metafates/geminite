@@ -1,22 +1,15 @@
 package page
 
 import (
-	"bytes"
 	"context"
 	_ "embed"
 	"net/url"
 	"strings"
-	"text/template"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/charmbracelet/glamour"
 )
-
-//go:embed page.md.tmpl
-var markdownTemplateFile []byte
-
-var markdownTemplate = template.Must(template.New("markdown").Parse(string(markdownTemplateFile)))
 
 type Page struct {
 	document *goquery.Document
@@ -41,23 +34,8 @@ type Anchor struct {
 	Text string
 }
 
-func (p *Page) markdownTemplate() (string, error) {
-	buffer := new(bytes.Buffer)
-
-	if err := markdownTemplate.Execute(buffer, p); err != nil {
-		return "", err
-	}
-
-	return buffer.String(), nil
-}
-
 func (p *Page) Render(renderer *glamour.TermRenderer) (string, error) {
-	tmpl, err := p.markdownTemplate()
-	if err != nil {
-		return "", err
-	}
-
-	out, err := renderer.Render(tmpl)
+	out, err := renderer.Render(p.Content.Markdown)
 	if err != nil {
 		return "", err
 	}
