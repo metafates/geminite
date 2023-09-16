@@ -38,15 +38,15 @@ func WithUserAgent(userAgent string) Option {
 	}
 }
 
-func New(ctx context.Context, URL *url.URL, options ...Option) (*Page, error) {
+func New(ctx context.Context, URL *url.URL, opts ...Option) (*Page, error) {
 	config := &Config{
 		Client:    http.DefaultClient,
 		Referer:   "",
 		UserAgent: "",
 	}
 
-	for _, option := range options {
-		option(config)
+	for _, opt := range opts {
+		opt(config)
 	}
 
 	req, err := http.NewRequestWithContext(

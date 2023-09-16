@@ -1,5 +1,0 @@
-package path
-
-func Home() {
-	
-}
