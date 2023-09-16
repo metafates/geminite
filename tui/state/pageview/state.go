@@ -14,6 +14,7 @@ import (
 	"github.com/metafates/geminite/stringutil"
 	"github.com/metafates/geminite/tui/base"
 	"github.com/metafates/geminite/tui/state/anchorsselect"
+	"github.com/skratchdot/open-golang/open"
 )
 
 var _ base.State = (*State)(nil)
@@ -123,6 +124,13 @@ func (s *State) Update(model base.Model, msg tea.Msg) tea.Cmd {
 			s.viewport.GotoTop()
 		case key.Matches(msg, s.keyMap.GotoBottom):
 			s.viewport.GotoBottom()
+		case key.Matches(msg, s.keyMap.Open):
+			err := open.Start(s.page.URL.String())
+			if err != nil {
+				return base.Err(err)
+			}
+
+			return nil
 		case key.Matches(msg, s.keyMap.Anchors):
 			onSelect := func(anchor *page.Anchor) tea.Cmd {
 				return func() tea.Msg {
