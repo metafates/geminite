@@ -4,9 +4,9 @@ import (
 	"math"
 	"strings"
 	"time"
-)
 
-const wordsPerMinute = 250
+	"github.com/metafates/geminite/config"
+)
 
 func estimateReadingDuration(text string) time.Duration {
 	if len(text) == 0 {
@@ -19,6 +19,6 @@ func estimateReadingDuration(text string) time.Duration {
 
 	wordsCount := len(words)
 
-	minutes := math.Ceil(float64(wordsCount) / float64(wordsPerMinute))
+	minutes := math.Ceil(float64(wordsCount) / float64(config.Config.WPM))
 	return time.Duration(math.Ceil(minutes) * float64(time.Minute))
 }
