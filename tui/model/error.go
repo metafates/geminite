@@ -21,12 +21,12 @@ type errKeyMap struct{}
 
 // FullHelp implements help.KeyMap.
 func (*errKeyMap) FullHelp() [][]key.Binding {
-	panic("unimplemented")
+	return nil
 }
 
 // ShortHelp implements help.KeyMap.
 func (*errKeyMap) ShortHelp() []key.Binding {
-	panic("unimplemented")
+	return nil
 }
 
 func newErrKeyMap() *errKeyMap {

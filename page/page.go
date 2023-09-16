@@ -7,16 +7,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/charmbracelet/glamour"
 )
 
 type Page struct {
-	document *goquery.Document
-	URL      *url.URL
-	Content  Content
-	Meta     Meta
-	Anchors  []Anchor
+	URL     *url.URL
+	Content Content
+	Meta    Meta
+	Anchors []Anchor
 }
 
 type Meta struct {

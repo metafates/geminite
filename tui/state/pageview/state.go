@@ -31,7 +31,7 @@ func (*State) Backable() bool {
 }
 
 func (s *State) init(size base.Size) tea.Cmd {
-	size.Height--
+	size.Height -= 1
 
 	if !s.initialized {
 		s.viewport = viewport.New(size.Width, size.Height)
@@ -57,7 +57,6 @@ func (s *State) init(size base.Size) tea.Cmd {
 	offset := s.viewport.YOffset
 	s.viewport.SetContent(out)
 
-	// TODO: it doesn't work for some reason...
 	s.viewport.SetYOffset(offset)
 
 	return nil

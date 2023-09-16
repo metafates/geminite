@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-const wordsPerMinute = 200
+const wordsPerMinute = 250
 
 func estimateReadingDuration(text string) time.Duration {
 	if len(text) == 0 {

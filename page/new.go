@@ -117,9 +117,8 @@ func New(ctx context.Context, URL *url.URL, options ...Option) (*Page, error) {
 	}
 
 	return &Page{
-		document: document,
-		URL:      URL,
-		Anchors:  anchors,
+		URL:     URL,
+		Anchors: anchors,
 		Meta: Meta{
 			Title:    article.Title,
 			Byline:   byline,

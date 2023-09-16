@@ -9,17 +9,18 @@ import (
 var _ list.DefaultItem = (*item)(nil)
 
 type item struct {
-	*page.Anchor
+	state  *State
+	anchor *page.Anchor
 }
 
 func (i item) FilterValue() string {
-	return i.Text
+	return i.anchor.Text
 }
 
 func (i item) Title() string {
-	return stringutil.Trim(i.FilterValue(), 20)
+	return stringutil.Trim(i.FilterValue(), i.state.size.Width)
 }
 
 func (i item) Description() string {
-	return i.URL.String()
+	return i.anchor.URL.String()
 }

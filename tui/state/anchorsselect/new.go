@@ -9,20 +9,22 @@ import (
 )
 
 func New(p *page.Page, onSelect func(*page.Anchor) tea.Cmd) *State {
+	state := &State{
+		page:     p,
+		keyMap:   newKeyMap(),
+		onSelect: onSelect,
+	}
+
 	lst := util.NewList(
 		2,
 		"anchor",
 		"anchors",
 		p.Anchors,
 		func(anchor page.Anchor) list.DefaultItem {
-			return item{&anchor}
+			return item{state: state, anchor: &anchor}
 		},
 	)
 
-	return &State{
-		page:     p,
-		list:     listwrapper.New(lst),
-		keyMap:   newKeyMap(),
-		onSelect: onSelect,
-	}
+	state.list = listwrapper.New(lst)
+	return state
 }

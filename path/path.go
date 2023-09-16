@@ -1,0 +1,5 @@
+package path
+
+func Home() {
+	
+}

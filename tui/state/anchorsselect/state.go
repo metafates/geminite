@@ -3,6 +3,7 @@ package anchorsselect
 import (
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
+	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/metafates/geminite/page"
 	"github.com/metafates/geminite/tui/base"
@@ -15,6 +16,8 @@ var _ base.State = (*State)(nil)
 type State struct {
 	page *page.Page
 	list *listwrapper.State
+
+	size base.Size
 
 	onSelect func(*page.Anchor) tea.Cmd
 
@@ -46,12 +49,17 @@ func (s *State) Status() string {
 }
 
 func (s *State) Resize(size base.Size) tea.Cmd {
+	s.size = size
 	return s.list.Resize(size)
 }
 
 func (s *State) Update(model base.Model, msg tea.Msg) tea.Cmd {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
+		if s.list.FilterState() == list.Filtering {
+			goto end
+		}
+
 		switch {
 		case key.Matches(msg, s.keyMap.Select):
 			item, ok := s.list.SelectedItem().(item)
@@ -60,12 +68,13 @@ func (s *State) Update(model base.Model, msg tea.Msg) tea.Cmd {
 			}
 
 			return tea.Sequence(
-				base.PushState(loading.New("Loading", item.Text)),
-				s.onSelect(item.Anchor),
+				base.PushState(loading.New("Loading", item.anchor.Text)),
+				s.onSelect(item.anchor),
 			)
 		}
 	}
 
+end:
 	return s.list.Update(model, msg)
 }
 
@@ -74,5 +83,6 @@ func (s *State) View(model base.Model) string {
 }
 
 func (s *State) Init(model base.Model) tea.Cmd {
+	s.size = model.AvailableSize()
 	return s.list.Init(model)
 }
