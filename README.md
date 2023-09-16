@@ -12,7 +12,7 @@ No ads, no JavaScript, no CSS, nothing bascially.
 
 1. You give it an URL
 2. It downloads HTML
-3. Extracts readable part (like reader mode does in your browser)
+3. Extracts readable part (like reader mode does in Firefox; [thx Mozilla](https://github.com/mozilla/readability))
 4. Converts into markdown
 5. Nicely displays it inside TUI
 6. ...
