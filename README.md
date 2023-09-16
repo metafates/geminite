@@ -18,6 +18,17 @@ No ads, no JavaScript, no CSS, nothing bascially.
 6. ...
 7. PROFIT!!!
 
+## Build
+
+To build `geminite` binary clone this repo and run
+
+```bash
+go build .
+
+# You can also use go install
+go install .
+```
+
 ## TODO
 
 - Bookmarks (like your cool browser does)
