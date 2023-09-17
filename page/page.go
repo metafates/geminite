@@ -1,13 +1,13 @@
 package page
 
 import (
-	"context"
 	_ "embed"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/charmbracelet/glamour"
+	"github.com/metafates/geminite/bookmark"
 )
 
 type Page struct {
@@ -41,6 +41,9 @@ func (p *Page) Render(renderer *glamour.TermRenderer) (string, error) {
 	return strings.TrimSpace(out), nil
 }
 
-func (p *Page) Descendant(ctx context.Context, URL *url.URL) (*Page, error) {
-	return New(ctx, URL, WithReferer(p.URL.String()))
+func (p *Page) AsBookmark() bookmark.Bookmark {
+	return bookmark.Bookmark{
+		Title: p.Meta.Title,
+		URL:   p.URL,
+	}
 }

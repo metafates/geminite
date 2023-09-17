@@ -116,7 +116,7 @@ func New(ctx context.Context, URL *url.URL, opts ...Option) (*Page, error) {
 		byline = article.Byline
 	}
 
-	return &Page{
+	page := &Page{
 		URL:     URL,
 		Anchors: anchors,
 		Meta: Meta{
@@ -128,5 +128,7 @@ func New(ctx context.Context, URL *url.URL, opts ...Option) (*Page, error) {
 			HTML:     article.Content,
 			Markdown: markdown,
 		},
-	}, nil
+	}
+
+	return page, nil
 }

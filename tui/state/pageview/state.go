@@ -10,6 +10,8 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
+	"github.com/metafates/geminite/bookmark"
+	"github.com/metafates/geminite/browser"
 	"github.com/metafates/geminite/page"
 	"github.com/metafates/geminite/stringutil"
 	"github.com/metafates/geminite/tui/base"
@@ -21,6 +23,7 @@ var _ base.State = (*State)(nil)
 
 type State struct {
 	page        *page.Page
+	browser     *browser.Browser
 	viewport    viewport.Model
 	keyMap      *keyMap
 	initialized bool
@@ -131,15 +134,22 @@ func (s *State) Update(model base.Model, msg tea.Msg) tea.Cmd {
 			}
 
 			return nil
+		case key.Matches(msg, s.keyMap.Bookmark):
+			err := bookmark.Save(s.page.AsBookmark())
+			if err != nil {
+				return base.Err(err)
+			}
+
+			return nil
 		case key.Matches(msg, s.keyMap.Anchors):
 			onSelect := func(anchor *page.Anchor) tea.Cmd {
 				return func() tea.Msg {
-					p, err := s.page.Descendant(model.Context(), anchor.URL)
+					p, err := s.browser.Open(model.Context(), anchor.URL)
 					if err != nil {
 						return err
 					}
 
-					return New(p)
+					return New(s.browser, p)
 				}
 			}
 

@@ -13,7 +13,8 @@ import (
 )
 
 var Config struct {
-	WPM int `koanf:"wpm" validate:"min=1"`
+	WPM   int  `koanf:"wpm" validate:"min=1"`
+	Cache bool `koanf:"cache"`
 }
 
 const keyDelim = "."
@@ -46,7 +47,8 @@ func readConfigFile() ([]byte, error) {
 
 func loadDefaults(k *koanf.Koanf) error {
 	defaults := map[string]any{
-		"wpm": 250,
+		"wpm":   250,
+		"cache": true,
 	}
 
 	return k.Load(confmap.Provider(defaults, keyDelim), nil)

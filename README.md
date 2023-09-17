@@ -11,7 +11,7 @@ No ads, no JavaScript, no CSS, nothing bascially.
 ## What?
 
 1. You give it an URL
-2. It downloads HTML
+2. It downloads HTML (or fetches it from cache)
 3. Extracts readable part (like reader mode does in Firefox; [thx Mozilla](https://github.com/mozilla/readability))
 4. Converts into markdown
 5. Nicely displays it inside TUI
@@ -29,8 +29,28 @@ go build .
 go install .
 ```
 
-## TODO
+## Bookmarks
 
-- Bookmarks (like your cool browser does)
-- Caching (do not download the same page twice)
-- Configuration (e.g. set you own reading speed in words per minute for your personal reading time estimation)
+You can press <kbd>b</kbd> when reading an article to bookmark it.
+
+To open your bookmarks list, run `geminite` without any arguments
+
+## Config
+
+To show config file location run
+
+```bash
+geminite where
+```
+
+Config is in TOML format. Default config example
+
+```toml
+# Words per minute reading speed
+# You can get your own here
+# https://swiftread.com/reading-speed-test
+wpm = 250
+
+# Enable caching
+cache = true
+```

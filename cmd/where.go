@@ -26,6 +26,14 @@ var whereCmd = &cobra.Command{
 				Name: "Config file",
 				Path: where.ConfigFile(),
 			},
+			{
+				Name: "Cache dir",
+				Path: where.CacheDir(),
+			},
+			{
+				Name: "Bookmarks file",
+				Path: where.BookmarksFile(),
+			},
 		} {
 			fmt.Println(target.Name)
 			fmt.Println(target.Path)

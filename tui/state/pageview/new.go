@@ -1,12 +1,14 @@
 package pageview
 
 import (
+	"github.com/metafates/geminite/browser"
 	"github.com/metafates/geminite/page"
 )
 
-func New(p *page.Page) *State {
+func New(b *browser.Browser, p *page.Page) *State {
 	return &State{
-		page:   p,
-		keyMap: newKeyMap(),
+		browser: b,
+		page:    p,
+		keyMap:  newKeyMap(),
 	}
 }

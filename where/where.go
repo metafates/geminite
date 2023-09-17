@@ -25,3 +25,17 @@ func ConfigDir() string {
 func ConfigFile() string {
 	return filepath.Join(ConfigDir(), "config.toml")
 }
+
+func CacheDir() string {
+	path := filepath.Join(xdg.CacheHome, "geminite")
+	mustMkdir(path)
+
+	return path
+}
+
+func BookmarksFile() string {
+	dir := filepath.Join(xdg.UserDirs.Documents, "Geminite")
+	mustMkdir(dir)
+
+	return filepath.Join(dir, "bookmarks.json")
+}
